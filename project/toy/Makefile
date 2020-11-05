@@ -21,11 +21,13 @@ clean:
 	rm -f *.o *.elf
 led.o: led.c led.h
 
-wdInterruptHandler.o: stateMachines.h
+wdInterruptHandler.o: stateMachines.h buzzer.h led.h
 
 stateMachines.o: led.h buzzer.h stateMachines.h 
 
 buzzer.o: buzzer.h
 
 switches.o: switches.h led.h
+
+blinkMain.o: led.h buzzer.h
 
