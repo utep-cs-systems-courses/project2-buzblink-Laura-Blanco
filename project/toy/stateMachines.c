@@ -17,7 +17,7 @@ char toggle_red()		/* always toggle! */
   state = 1;
   break;
  case 1:
-  red_on = 0;
+  red_on = 1;
   state = 0;
   break;
 }
@@ -50,7 +50,7 @@ void state_advance()		/* alternate between toggling red & green */
 
  led_changed = changed;
  led_update();
-}
+} 
 
 void go_down()               /* will set sb to move frequency down */
 {
@@ -80,6 +80,37 @@ void turn_on_green()     /*turns on green light and red off */
   led_update();
 }
 
+void two_beats(){
+  static char two_state = 0;
+  switch(two_state){
+  case 0:
+    turn_on_green();
+    buzzer_set_period(0);
+    two_state = 1;
+    break;
+  case 1:
+    green_on = 1;
+    red_on = 1;
+    buzzer_set_period(1000);
+    two_state = 2;
+    led_changed = 1;
+    led_update();
+    break;
+  case 2:
+    turn_on_red();
+    buzzer_set_period(0);
+    two_state = 3;
+    break;
+  case 3:
+    green_on = 1;
+    red_on = 1;
+    buzzer_set_period(1000);
+    two_state = 0;
+    led_changed = 1;
+    led_update();
+    break;
+  }
+}
 void buzzer_advance()
 {
   if(sb){
@@ -119,8 +150,8 @@ void dimmer()
     dim_state = 1;
     break;
   case 1: //50 %
-    toggle_red();
-    toggle_red();
+    // toggle_red();
+    // toggle_red();
     dim_state = 2;
     break;
   case 2: //75 %
@@ -187,13 +218,53 @@ void toggle_75()
   led_changed = 1;
   led_update();
 }
-
 void song(){
-  int notes [] = {a,0,0,c,0,d,d,c,0,d,c,d,e,0,d,c,a,0,g,a,0,c,0,a,g,f,d,0,a,c,0,d,0,d,c,0,d,0,c,0,d,e,0,c,c,a,0,g,0,a,c,a,g,0,0,f,d,0};
+  static char state = 0;
+  switch(state){
+    case 0:
+      buzzer_set_period(2000000/2500);
+      state++;
+      break;
+  case 1:
+    buzzer_set_period(200000/500);
+    state++;
+    break;
+  }
+}
+
+/*
+void song(){
+  static char note = 0;
+ 
+  int a = 440;
+  int c = 524;
+  int d = 588;
+  int e = 668;
+  int f = 699;
+  int g = 784;
+
+  switch(note){
+  case 0: buzzer_set_period(2000000/a); note++; break;
+  case 1:buzzer_set_period(0); note++; break;
+  case 2:buzzer_set_period(0); note++; break;
+  case 3:buzzer_set_period(2000000/c); note++; break;
+  case 4: buzzer_set_period(0); note++; break;
+  case 5:buzzer_set_period(2000000/d); note++; break;
+  case 6:buzzer_set_period(2000000/d); note++; break;
+  case 7: buzzer_set_period(2000000/c); note++; break;
+  case 8: buzzer_set_period(0); note++; break;
+  case 9: buzzer_set_period(2000000/d); note++; break;
+  case 10: buzzer_set_period(2000000/c); note++; break;
+  case 11:buzzer_set_period(2000000/d); note++; break;
+  case 12:buzzer_set_period(2000000/e); note++; break;
+  case 13: buzzer_set_period(0); note = 0; break;
+  }
+    /* int notes [] = {a,0,0,c,0,d,d,c,0,d,c,d,e,0,d,c,a,0,g,a,0,c,0,a,g,f,d,0,a,c,0,d,0,d,c,0,d,0,c,0,d,e,0,c,c,a,0,g,0,a,c,a,g,0,0,f,d,0};
   int i = 0;
   while(i < sizeof(notes)){
     buzzer_set_period(2000000/(notes[i]));
     __delay_cycles(2000000);
     i++;
   }
-}
+  buzzer_set_period(0);  
+} */
