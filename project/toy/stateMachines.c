@@ -5,6 +5,7 @@
 
 static char sb = 1;
 static int x = 500;
+static char dim_state = 0;
 
 char toggle_red()		/* always toggle! */
 {
@@ -20,6 +21,8 @@ char toggle_red()		/* always toggle! */
   state = 0;
   break;
 }
+ led_changed = 1;
+ led_update();
  return 1;			/* always changes an led */
 }
 
@@ -105,5 +108,82 @@ void main_siren() //state machine for siren
   }
 }
 
+void dimmer()
+{
+  switch(dim_state){
+  case 0: //25 %
+    toggle_25();
+    toggle_25();
+    toggle_25();
+    toggle_25();
+    dim_state = 1;
+    break;
+  case 1: //50 %
+    toggle_red();
+    toggle_red();
+    dim_state = 2;
+    break;
+  case 2: //75 %
+    toggle_75();
+    toggle_75();
+    toggle_75();
+    toggle_75();
+    dim_state = 0;
+    break;
+  }
+}
 
+void toggle_25()
+{
+  switch(dim_state){
+  case 0:
+    red_on = 1;
+    green_on = 1;
+    dim_state = 1;
+    break;
+  case 1:
+    red_on = 0;
+    green_on = 0;
+    dim_state = 2;
+    break;
+  case 2:
+    red_on = 0;
+    green_on = 0;
+    dim_state = 3;
+    break;
+  case 3:
+    red_on = 0;
+    green_on =0;
+    dim_state = 0;
+  }
+  led_changed = 1;
+  led_update();
+}
 
+void toggle_75()
+{
+  switch(dim_state){
+  case 0:
+    red_on = 1;
+    green_on = 1;
+    dim_state = 1;
+    break;
+  case 1:
+    red_on = 1;
+    green_on = 1;
+    dim_state = 2;
+    break;
+  case 2:
+    red_on = 1;
+    green_on = 1;
+    dim_state = 3;
+    break;
+  case 3:
+    red_on = 0;
+    green_on = 0;
+    dim_state = 0;
+    break;
+  }
+  led_changed = 1;
+  led_update();
+}
