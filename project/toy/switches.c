@@ -3,7 +3,7 @@
 #include "led.h"
 
 char switch_state_down, switch_state_changed; /* effectively boolean */
-char b1,b2,b3,b4;
+char bstate;
 
 static char 
 switch_update_interrupt_sense()
@@ -30,8 +30,12 @@ void
 switch_interrupt_handler()
 {
   char p2val = switch_update_interrupt_sense();
-  b1 = (p2val & SW1) ? 0 : 1; /* 0 when SW1 is up */
-  b2 = (p2val & SW2) ? 0: 1; /* for switch 2 */
-  b3 = (p2val & SW3) ? 0 : 1;
-  b4 = (p2val & SW4) ? 0 : 1; 
+  if((p2val & SW1) == 0)
+    bstate = 0;    //pressed button 1
+  else if((p2val & SW2) == 0)
+    bstate = 1;  //pressed button 2
+  else if((p2val & SW3) == 0)
+    bstate = 2; //pressed button 3
+  else if((p2val & SW4) == 0)
+    bstate = 3; //pressed button 4
 }
