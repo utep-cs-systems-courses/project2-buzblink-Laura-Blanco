@@ -1,28 +1,17 @@
-## Description
-This program uses interrupts to detect when a switch is pressed or
-released.
+## Description:
 
-Press S1, and the green LED is illuminated.  Release it, and the red
-LED is illuminated instead.
+This program creates a toy that can make sounds and turn on a green and red
+light. It uses four buttons that each have their own sequence of sound and
+lights.
 
-## Exploration
-_LED toggle:_  A great initial project would be to modify this program to
-implement a state machine that "toggled" between the red and green LEDs
-each time the button is pressed. The LED should remain illuminated until
-the next time the button is pressed.
+## What each button does:
 
-_Separation of duties:_ Input and output are not always so closely
-connected.  Frequently an input begins a computation that eventually
-results in an output. For example, pressing "next song" on a streaming
-audio player begins a complicated multi-stage process that eventually
-results in a different song being played.  Suggestion: start with
-something simple such as responding to the buttons using interrupts to
-set state variables, and update the LEDs when the timer interrupt
-occurs.  
+Press the first button S1 and the red and green light flash. Also the buzzer
+will turn on and make a hospital like sound.
 
-_Time and button interaction:_
-Integrate the timer mechanisms from the blink demo and have the button affect the blink sequence.
+Press the second button S2 and the lights are dimmed to different intensities.
 
-## Some Advice
-When creating your own variants to the demo programs,
-it's probably a good idea to keep a copy of the original program (or really understand how _git checkout_ works).  
+Press the third button S3 and a siren turns on as well as both the lights
+alternating between red and green.
+
+Press the fourth button S4 and everything which is lights and buzzer turns off.
