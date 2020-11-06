@@ -13,6 +13,6 @@ void switch_interrupt_handler();
 
 extern char switch_state_down, switch_state_changed; /* effectively boolean */
 
-extern char b1,b2,b3,b4;
+extern char bstate;
 
 #endif // included

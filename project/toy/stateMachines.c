@@ -187,3 +187,13 @@ void toggle_75()
   led_changed = 1;
   led_update();
 }
+
+void song(){
+  int notes [] = {a,0,0,c,0,d,d,c,0,d,c,d,e,0,d,c,a,0,g,a,0,c,0,a,g,f,d,0,a,c,0,d,0,d,c,0,d,0,c,0,d,e,0,c,c,a,0,g,0,a,c,a,g,0,0,f,d,0};
+  int i = 0;
+  while(i < sizeof(notes)){
+    buzzer_set_period(2000000/(notes[i]));
+    __delay_cycles(2000000);
+    i++;
+  }
+}
